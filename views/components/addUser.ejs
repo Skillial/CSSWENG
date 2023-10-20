@@ -1,0 +1,45 @@
+
+<% if (userType === "SEDO") {%>
+    <div class = "mb-3">
+        <label for="clusterSelect" class="form-label">Cluster</label>
+        <select class="form-select" id = "clusterSelect" aria-describedby="Select Cluster" autocomplete="off">
+            <option selected disabled hidden>Select Cluster</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+    </div>
+<% } %>
+    <div class = "mb-3">
+        <label for="groupSelect" class="form-label">Self Help Group</label>
+        <select class="form-select" id = "clusterSelect" aria-describedby="Select Self Help Group" autocomplete="off">
+            <option selected disabled hidden>Select Self Help Group</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+    </div>
+    <div class = "mb-3">
+        <label for="firstName" class="form-label">First Name</label>
+        <input class="form-control" id = "firstName" name = "firstName" type="text" placeholder="Bronya" aria-describedby="FirstName">
+    </div>
+    <div class = "mb-3">
+        <label for="middleName" class="form-label">Middle Name</label>
+        <input class="form-control" id = "middleName" name = "middleName" type="text" placeholder="Alexeievna" aria-describedby="MiddleName">
+    </div>
+    <div class = "mb-3">
+        <label for="firstName" class="form-label">Last Name</label>
+        <input class="form-control" id = "lastName" name = "lastName" type="text" placeholder="Zaychik" aria-describedby="LastName">
+    </div>
+    <div class = "mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input class="form-control" id = "username" name = "username" type="text" placeholder="Alloy_bron" aria-describedby="Username">
+    </div>
+    <div class = "mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input class="form-control" id = "password" name = "password" type="password" placeholder="p@$sW0rD" aria-describedby="Username">
+    </div>
+    
+    <h6 class="fine-print alert alert-danger text-muted d-none" role="alert" id="error">
+        Wrong username or password
+    </h6>
