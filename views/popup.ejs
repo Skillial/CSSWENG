@@ -25,46 +25,8 @@
 <body class="body-bg">
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCluster">
-	Add User
-</button>
 
-<!-- Modal -->
-<div class="modal fade" id="addCluster" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="exampleModalLabel">Add User</h1>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-
-			<form id = "addUserForm" name = "addUserForm" method = "POST" action = "/">
-				<div class="modal-body">
-					<div class = "mb-3">
-						<label for="userTypeSelect" class="form-label">User Type</label>
-						<select class="form-select" name = "userType" id = "userTypeSelect" aria-label="Select User Type" autocomplete="off">
-							<option selected disabled default>Select User Type</option>
-
-							<% if (authority === "Admin") {%>
-								<option value="SEDO">SEDO</option>
-							<% } %>
-						
-							<option value="Treasurer">Treasurer</option>
-						</select>
-					</div>
-					<div id = "addUser">
-						<%- include('components/addUser.ejs'), {authority} %>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="reset" class="btn btn-danger">Reset</button>
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="submit" form = "sample" class="btn btn-primary">Save</button>
-				</div>
-			</form>
-
-		</div>
-	</div>
-</div>
+	<%-include('components/addUserModal.ejs'), {authority} %>
+	<%-include('components/addClusterModal.ejs'), {authority} %>
 </body>
 </html>
