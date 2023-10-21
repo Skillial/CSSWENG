@@ -26,7 +26,7 @@
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCluster">
-	Add Cluster
+	Add User
 </button>
 
 <!-- Modal -->
@@ -34,7 +34,7 @@
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="exampleModalLabel">Add Cluster</h1>
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Add User</h1>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 
@@ -52,7 +52,9 @@
 							<option value="Treasurer">Treasurer</option>
 						</select>
 					</div>
-					<div id = "addUser"></div>
+					<div id = "addUser">
+						<%- include('components/addUser.ejs'), {authority} %>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="reset" class="btn btn-danger">Reset</button>

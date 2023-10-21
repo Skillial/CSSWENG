@@ -1,22 +1,31 @@
 
-<% if (userType === "SEDO") {%>
+<% if (authority === "Admin") {%>
     <div class = "mb-3">
         <label for="clusterSelect" class="form-label">Cluster</label>
-        <select class="form-select" id = "clusterSelect" aria-describedby="Select Cluster" autocomplete="off">
+        <select class="form-select" id = "clusterSelect" name = "clusterSelect" aria-describedby="Select Cluster" autocomplete="off" required>
             <option selected disabled hidden>Select Cluster</option>
+
+            <!-- INSERT OPTIONS FROM DB HERE -->
             <option value="1">One</option>
             <option value="2">Two</option>
             <option value="3">Three</option>
         </select>
     </div>
+<% } else if (authority === "SEDO") {%>
+    <!-- INSERT CLUSTER INTO VALUE? -->
+    <input type = "hidden" value = "" id = "clusterSelect" name = "clusterSelect">
 <% } %>
     <div class = "mb-3">
         <label for="groupSelect" class="form-label">Self Help Group</label>
-        <select class="form-select" id = "clusterSelect" aria-describedby="Select Self Help Group" autocomplete="off">
+        <select class="form-select" id = "groupSelect" name = "groupSelect" aria-describedby="Select Self Help Group" autocomplete="off" required>
             <option selected disabled hidden>Select Self Help Group</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            <option disabled>
+                <% if (authority === "Admin") { %>
+                    No Cluster Selected
+                <% } else if (authority === "SEDO") { %>
+                    Error
+                <% } %>
+            </option>
         </select>
     </div>
     <div class = "mb-3">
@@ -33,13 +42,9 @@
     </div>
     <div class = "mb-3">
         <label for="username" class="form-label">Username</label>
-        <input class="form-control" id = "username" name = "username" type="text" placeholder="Alloy_bron" aria-describedby="Username">
+        <input class="form-control" id = "username" name = "username" type="text" placeholder="Alloy_bron" aria-describedby="Username" required>
     </div>
     <div class = "mb-3">
         <label for="password" class="form-label">Password</label>
-        <input class="form-control" id = "password" name = "password" type="password" placeholder="p@$sW0rD" aria-describedby="Username">
+        <input class="form-control" id = "password" name = "password" type="password" placeholder="p@$sW0rD" aria-describedby="Username" required>
     </div>
-    
-    <h6 class="fine-print alert alert-danger text-muted d-none" role="alert" id="error">
-        Wrong username or password
-    </h6>
