@@ -7,10 +7,8 @@ $(document).ready(function() {
         $("#clusterSelect").change(function() {
             // I do not know how slow this can be
             $('#groupSelect option:not(:first)').remove();
-            let newOption = `<option value="test">NEW OPTION</option>`
-            $("#groupSelect").append(newOption);
-            $("#groupSelect").append(newOption);
-            $("#groupSelect").append(newOption);
+            getProject();   
+            getSHG();
         });
     }
     // if the user is a SEDO
@@ -39,3 +37,59 @@ $(document).ready(function() {
         })
     })()
 });
+
+function getSHG() {
+    var project = $('#clusterSelect').find(":selected").text();
+    var data = { project };
+    fetch('/SHGchoices', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json(); 
+        } else {
+            throw new Error('Failed to fetch data');
+        }
+    })
+    .then(data => {
+        data.SHG.forEach(shg => {
+            var newOption = `<option value="${shg.name}">${shg.name}</option>`;
+            $("#groupSelect").append(newOption);
+        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function getProject() {
+    var cluster = $('#projectSelect').find(":selected").text();
+    var data = { cluster };
+    fetch('/projectChoices', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json(); 
+        } else {
+            throw new Error('Failed to fetch data');
+        }
+    })
+    .then(data => {
+        data.project.forEach(project => {
+            var newOption = `<option value="${project.name}">${project.name}</option>`;
+            $("#projectSelect").append(newOption);
+        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}

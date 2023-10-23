@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 
 const MemberSchema = new mongoose.Schema({
-  partID: [{ type: mongoose.Schema.Types.ObjectId, ref: 'part', required: true }],
   name: {
     firstName: String,
     middleName: String,
@@ -28,8 +27,8 @@ const MemberSchema = new mongoose.Schema({
   address: {type: String, required: true},
 
   savings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'saving' }],
-  totalSaving: Number, 
-  totalMatch: Number, 
+  totalSaving: {type: Number, default: 0}, 
+  totalMatch: {type: Number, default: 0}, 
 
                       //Active, Retired with Savings, Retired w/o Savings
   status: {type: String, enum:['Active', 'RwS', 'RwoS'], default: 'Active', required: true},
