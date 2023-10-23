@@ -1,24 +1,25 @@
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCluster">
-	Add Cluster
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add<%=partname%>">
+	Add <%=partname%>
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="addCluster" tabindex="-1" aria-labelledby="addClusterModalLabel" aria-hidden="true">
+<div class="modal fade" id="add<%=partname%>" tabindex="-1" aria-labelledby="add<%=partname%>ModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="addClusterModalLabel">Add Cluster</h1>
+				<h1 class="modal-title fs-5" id="add<%=partname%>ModalLabel">Add <%=partname%></h1>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 
-			<form id = "addClusterForm" class = "needs-validation" name = "addClusterForm" method = "POST" action = "/" novalidate>
+			<form id = "add<%=partname%>Form" class = "needs-validation" name = "add<%=partname%>Form" method = "POST" action = "/" novalidate>
                 
                 <!-- Uncomment and adjust values for add project and group -->
                 <!-- <input type = "hidden" value = "" id = "" name = ""> -->
 				
                 <div class="modal-body">
-					<div id = "addClusterFormDiv">
-						<%- include('popupFields/addClusterFormFields.ejs'), {authority} %>
+					<div id = "add<%=partname%>FormDiv">
+                        <% const partialURL = "popupFields/add" + partname + "FormFields.ejs"%>
+						<%- include(partialURL, {authority}) %>
 					</div>
 				</div>
 				<div class="modal-footer">

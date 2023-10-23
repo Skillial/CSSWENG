@@ -24,10 +24,9 @@
 
 <body class="body-bg">
 
-<!-- Button trigger modal -->
-
-	<%-include('components/addUserModal.ejs'), {authority} %>
-	<%-include('components/addClusterModal.ejs'), {authority} %>
-	<%-include('components/addSHGModal.ejs'), {authority} %>
+	<%-include('components/addPartModal.ejs', {authority, partname: "User"}) %>
+	<%-include('components/addPartModal.ejs', {authority, partname: "SHG"}) %>
+	<%-include('components/addPartModal.ejs', {authority, partname: "Project"}) %>
+	<%-include('components/addPartModal.ejs', {authority, partname: "Cluster"}) %>
 </body>
 </html>
