@@ -15,7 +15,7 @@ router.get("/dashboard", userController.dashboard);
 
 router.get("/group", userController.group);
 router.get("/project", userController.project);
-router.get("/cluster", userController.cluster);
+router.get("/cluster/:page", userController.cluster);
 router.get("/member", userController.member);
 router.get("/profile", userController.profile);
 
