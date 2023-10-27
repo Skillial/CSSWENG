@@ -11,11 +11,7 @@
                 <div class="modal-body">
 					<div id = "add<%=partname%>FormDiv">
 						<% const partialURL = "popupFields/" + partname + "FormFields.ejs"%>
-						<% if(partname !== "Cluster") { %>
-						 	<%-include(partialURL, {authority, clusters:pageParts})%> 
-						<%} else {%>
-							<%-include(partialURL, {authority})%>
-						<%}%>
+						<%-include(partialURL, {authority})%>
 					</div>
 				</div>
 				<div class="modal-footer">

@@ -9,18 +9,18 @@ const mongoose = require('mongoose')
 const formsController = {
 
     loadEditClusterForm: async (req, res) => {
-        const clusterName = req.params.clusterName;
-        const cluster = await Cluster.findOne({name: clusterName});
+        const clusterId = req.params.clusterId;
+        const cluster = await Cluster.findOne({_id: clusterId});
         res.render('components/popupFields/ClusterFormFields', {cluster});
     },
     loadEditSubProjectsForm: async (req, res) => {
-        const projectName = req.params.projectName;
-        const project = await Project.findOne({name: projectName});
+        const projectId = req.params.projectId;
+        const project = await Project.findOne({_id: projectId});
         res.render('components/popupFields/Sub-ProjectsFormFields', {project});
     },
     loadEditSHGForm: async (req, res) => {
-        const shgName = req.params.shgName;
-        const shg = await SHG.findOne({name: shgName});
+        const shgId = req.params.shgId;
+        const shg = await SHG.findOne({_id: shgId});
         res.render('components/popupFields/SHGFormFields', {shg});
     },
 }
