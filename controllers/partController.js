@@ -114,11 +114,11 @@ const partController = {
                     updatedParts = await Member.find({
                         $and: [
                           { name: { $regex: req.query.search, $options: 'i' } }, 
-                          { _id: { $in: project.groups } } 
+                          { _id: { $in: group.member } } 
                         ]
                       });
                 } else{
-                    updatedParts = await Group.find({_id: { $in: group.member } });
+                    updatedParts = await Member.find({_id: { $in: group.member } });
                 }
 
                 //await updateOrgParts(updatedParts); 
@@ -127,7 +127,7 @@ const partController = {
                 //console.log(orgParts);
  
                 dashbuttons = dashboardButtons(authority);
-                res.render("member", { authority, pageParts, username, sidebar, dashbuttons});
+                res.render("member", { authority, pageParts, username, sidebar, dashbuttons, grpName: group.name});
             } else {
                 res.redirect("/");
             }
