@@ -6,6 +6,10 @@ function loadDataTable(){
     const table = new DataTable('#membersTable', {
        
         scrollX:true,
+        fixedColumns: {
+            left:3,
+            right:0
+        },
         columnDefs:[
         //stuff on top = more priority
         {
