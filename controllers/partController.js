@@ -94,30 +94,45 @@ const partController = {
                 const user = await User.findById(userID);
                 const authority = user.authority;
                 const username = user.username;
-                
+                var memberList=[];
                 const group = await Group.findOne({ _id: req.session.groupId });
-
-                let updatedParts = [] 
-
-                // var updatedParts;
-                if (req.query.search){
-                    updatedParts = await Member.find({
-                        $and: [
-                          { name: { $regex: req.query.search, $options: 'i' } }, 
-                          { _id: { $in: group.member } } 
-                        ]
+                const year = new Date().getFullYear();
+                const months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sept", "oct", "nov", "dec"];
+                const members = await Member.find({_id : { $in: group.member }});
+                for (const member of members) {
+                    const savings = await Saving.findOne({
+                        _id: { $in: member.savings },
+                        year: year 
                       });
-                } else{
-                    updatedParts = await Member.find({_id: { $in: group.member } });
+                   
+                    const data = {
+                        name: member.name.firstName + ' ' + member.name.lastName,
+                        id: member._id,
+                    };
+                
+                    if (savings) {  
+                        for (const month of months) {
+                            data[month] = {
+                                savings: savings[month]?.savings || "",
+                                match: savings[month]?.match || ""
+                            };
+                        }
+                        data.totalMatch = savings.totalMatch;
+                        data.totalSavings = savings.totalSavings;
+                    } else {
+                        for (const month of months) {
+                            data[month] = {
+                                savings: "",
+                                match: ""
+                            };
+                        }
+                        data.totalMatch = 0;
+                        data.totalSavings = 0;
+                    }
+                    memberList.push(data);
                 }
-
-                //await updateOrgParts(updatedParts); 
-                // const orgParts = getOrgParts();
-                const pageParts = updatedParts;
-                //console.log(orgParts);
- 
                 dashbuttons = dashboardButtons(authority);
-                res.render("member", { authority, pageParts, username, sidebar, dashbuttons, grpName: group.name});
+                res.render("member", { authority, username, sidebar, dashbuttons, grpName: group.name, year, memberList});
             } else {
                 res.redirect("/");
             }
@@ -126,6 +141,55 @@ const partController = {
             return res.status(500).render("fail", { error: "An error occurred while retrieving group information." });
         }
 
+    },
+    reloadTable: async (req, res) => {
+        try {
+            if (req.session.isLoggedIn) {
+                var memberList=[];
+                const group = await Group.findOne({ _id: req.session.groupId });
+                const year = req.params.year;
+                const months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sept", "oct", "nov", "dec"];
+                const members = await Member.find({_id : { $in: group.member }});
+                for (const member of members) {
+                    const savings = await Saving.findOne({
+                        _id: { $in: member.savings },
+                        year: year 
+                      });
+                   
+                    const data = {
+                        name: member.name.firstName + ' ' + member.name.lastName,
+                        id: member._id,
+                    };
+                
+                    if (savings) {  
+                        for (const month of months) {
+                            data[month] = {
+                                savings: savings[month]?.savings || "",
+                                match: savings[month]?.match || ""
+                            };
+                        }
+                        data.totalMatch = savings.totalMatch;
+                        data.totalSavings = savings.totalSavings;
+                    } else {
+                        for (const month of months) {
+                            data[month] = {
+                                savings: "",
+                                match: ""
+                            };
+                        }
+                        data.totalMatch = 0;
+                        data.totalSavings = 0;
+                    }
+                    memberList.push(data);
+                }
+                res.status(200).json({memberList});
+            } else {
+                res.status(400).json({ error: "An error occurred while retrieving group information." });
+            }
+        } catch (error) {
+            console.error(error);
+            return res.status(500).render("fail", { error: "An error occurred while retrieving group information." });
+        }
     },
     // edit group
     editGroup: async (req, res) => {
@@ -480,8 +544,10 @@ const partController = {
     newCluster: async (req, res) => {
         try {
             if (req.session.isLoggedIn) {
-                // idk what this form will have
+                // idk what this form will have 
                 const { name, location } = req.body;
+                //console.log(req.body);
+                console.log(location);
                 const existingCluster = await Cluster.findOne({ name });
                 if (existingCluster) {
                     return res.status(400).json({ error: "A Cluster with the same name already exists." });
@@ -500,8 +566,9 @@ const partController = {
                 res.redirect("/");
             }
         } catch (error) {
-            console.error(error);
-            return res.status(500).render("fail", { error: "An error occurred while creating a new cluster." });
+            //console.error(error);
+            return res.status(500).json({ error: "An error occurred while creating a new cluster    ." });
+            //return res.status(500).render("fail", { error: "An error occurred while creating a new cluster." });
         }
     },
 
@@ -655,10 +722,10 @@ const partController = {
     SHGChoices: async (req, res) => {
         try {
             if (req.session.isLoggedIn) {
-                let { project } = req.body;
-                console.log(project)
-                const SHG = await Group.find({});
-                res.json({ SHG });
+                let { projectName } = req.body;
+                const project = await Project.findOne({ name: projectName });
+                const shg = await Group.find({ _id: { $in: project.groups } });
+                res.json({ shg });
             } else {
                 res.redirect("/");
             }
@@ -671,8 +738,12 @@ const partController = {
     projectChoices: async (req, res) => {
         try {
             if (req.session.isLoggedIn) {
-                let { cluster } = req.body;
-                const project = await Project.find({});
+                let { clusterName } = req.body;
+                const cluster = await Cluster.findOne({ name: clusterName });
+                const project = await Project.find({
+                    _id: { $in: cluster.projects },
+                    totalGroups: { $gt: 0 }
+                  });
                 res.json({ project });
             } else {
                 res.redirect("/");
